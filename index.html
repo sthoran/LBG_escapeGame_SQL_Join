@@ -20,6 +20,21 @@ button.secondary{background:#e7edf2;color:#17365d}.feedback{display:none;margin-
 #report{display:none}
 @media print{body *{visibility:hidden!important}#report,#report *{visibility:visible!important}#report{display:block!important;position:absolute;left:0;top:0;width:100%;font:10pt Arial;color:#172b40}#report h1{font-size:20pt}#report h2{font-size:14pt;color:#17365d;border-bottom:1px solid #abc;padding-bottom:4pt;margin-top:16pt}#report table{width:100%;border-collapse:collapse}#report td,#report th{border:1px solid #9eacb8;padding:6pt;text-align:left;vertical-align:top}#report th{background:#eaf2f8}#report pre{white-space:pre-wrap;background:#f2f5f8;padding:7pt;font-size:8pt}#report img{max-width:100%;max-height:430px;object-fit:contain;display:block;margin:8pt 0;page-break-inside:avoid}.reportMission{page-break-inside:avoid}}
 @media(max-width:600px){.panel,.mission{padding:15px}}
+
+.join-learning{background:#fff;border:1px solid #d9e3ea;border-radius:18px;padding:20px;margin:18px 0;box-shadow:0 6px 22px #6c3d2410}
+.join-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:9px;margin:14px 0}
+.join-buttons button{margin:0;background:#e9f0f5;color:#17365d;border:2px solid transparent}
+.join-buttons button[aria-pressed="true"]{background:#17365d;color:white;border-color:#e83d7d}
+.join-detail{display:grid;grid-template-columns:minmax(220px, .9fr) minmax(260px,1.1fr);gap:18px;align-items:center}
+.venn-wrap{background:#f7fafc;border-radius:14px;padding:10px}
+.venn-wrap svg{width:100%;height:auto;display:block}
+.join-explain{background:#f7fafc;border-radius:14px;padding:15px}
+.join-explain h3{color:#17365d;margin:0 0 8px}
+.join-explain table{border-collapse:collapse;width:100%;font-size:.9rem;margin-top:10px}
+.join-explain th,.join-explain td{border:1px solid #c8d4df;padding:7px;text-align:left}
+.join-explain th{background:#e6eef5}
+.join-note{font-size:.88rem;color:#526474;margin-top:9px}
+@media(max-width:650px){.join-detail{grid-template-columns:1fr}}
 </style></head>
 <body>
 <header><div class="wrap"><div class="tag">INFORMATIK 11 · 45 MINUTEN</div>
@@ -33,6 +48,38 @@ button.secondary{background:#e7edf2;color:#17365d}.feedback{display:none;margin-
 <div class="grid"><div class="stat"><b>Mission 1</b>Alle Kombinationen</div><div class="stat"><b>Mission 2</b>Die echte Preisliste</div><div class="stat"><b>Mission 3</b>Die fehlenden Belege</div><div class="stat"><b>Mission 4</b>Nie verkaufte Varianten</div><div class="stat"><b>Finale</b>JOIN selbst herleiten</div></div>
 <p>Fortschritt: <b id="progressText">0 von 5 Aufgaben gelöst</b></p><progress class="progress" id="progress" value="0" max="5"></progress>
 <p class="small">Die Webseite kontrolliert die eingetragene Zeilenzahl und ob ein Screenshot hochgeladen wurde. Sie kann den Bildinhalt nicht automatisch fachlich auslesen. Die Lehrkraft kann die hochgeladenen Tabellenbilder und SQL-Abfragen im PDF-Bericht kontrollieren.</p>
+</section>
+
+
+<section class="join-learning" id="joinLearning">
+  <h2>🧩 JOIN-Arten entdecken</h2>
+  <p>Klickt auf eine JOIN-Art. Das Venn-Diagramm zeigt, welche Bereiche der beiden Tabellen im Ergebnis enthalten sind. Darunter findet ihr eine Erklärung und ein kleines Tabellenbeispiel.</p>
+  <div class="join-buttons" role="group" aria-label="JOIN-Art auswählen">
+    <button type="button" data-join="cross" aria-pressed="true">CROSS JOIN</button>
+    <button type="button" data-join="inner" aria-pressed="false">INNER JOIN</button>
+    <button type="button" data-join="left" aria-pressed="false">LEFT JOIN</button>
+    <button type="button" data-join="right" aria-pressed="false">RIGHT JOIN</button>
+  </div>
+  <div class="join-detail" aria-live="polite">
+    <div class="venn-wrap">
+      <svg id="vennSvg" viewBox="0 0 360 230" role="img" aria-label="Venn-Diagramm der ausgewählten JOIN-Art">
+        <defs><clipPath id="clipA"><circle cx="137" cy="112" r="76"/></clipPath><clipPath id="clipB"><circle cx="223" cy="112" r="76"/></clipPath></defs>
+        <circle id="vennA" cx="137" cy="112" r="76" fill="#3aa6c4" fill-opacity=".16" stroke="#247b99" stroke-width="3"/>
+        <circle id="vennB" cx="223" cy="112" r="76" fill="#e88a45" fill-opacity=".16" stroke="#b96328" stroke-width="3"/>
+        <path id="vennHighlight" d="" fill="#d93678" fill-opacity=".72"/>
+        <text x="105" y="116" text-anchor="middle" font-size="18" font-weight="bold" fill="#17365d">A</text>
+        <text x="255" y="116" text-anchor="middle" font-size="18" font-weight="bold" fill="#17365d">B</text>
+        <text x="180" y="216" text-anchor="middle" font-size="11" fill="#526474">Schnittmenge = passende Schlüsselwerte</text>
+      </svg>
+      <p class="join-note">Blau: Tabelle A · Orange: Tabelle B · Pink: Bereich, der im Ergebnis berücksichtigt wird</p>
+    </div>
+    <div class="join-explain">
+      <h3 id="joinTitle">CROSS JOIN – alle Kombinationen</h3>
+      <p id="joinText">Jede Zeile aus Tabelle A wird mit jeder Zeile aus Tabelle B kombiniert. Es ist keine gemeinsame Schlüsselspalte nötig.</p>
+      <div id="joinExample"></div>
+      <p class="join-note" id="joinHint">Beispiel: 2 Kunden × 2 Belege = 4 Kombinationen – auch wenn die Kundennummern nicht übereinstimmen.</p>
+    </div>
+  </div>
 </section>
 
 <div id="missions"></div>
@@ -100,4 +147,29 @@ function makeReport(){
  content+="</div>";});
  document.getElementById("report").innerHTML=content;window.print();
 }
+
+const joinInfo={
+cross:{title:"CROSS JOIN – alle Kombinationen",text:"Jede Zeile aus Tabelle A wird mit jeder Zeile aus Tabelle B kombiniert. Es wird nicht geprüft, ob Schlüsselwerte übereinstimmen. Deshalb entstehen alle möglichen Kombinationen.",a:"Kunde",b:"Beleg",rows:[["KundenID","Vorname"],["1","Mia"],["2","Ben"]],right:[["BelegID","KundenID"],["101","1"],["102","3"]],result:[["Vorname","BelegID","Beleg.KundenID"],["Mia","101","1"],["Mia","102","3"],["Ben","101","1"],["Ben","102","3"]],hint:"2 Zeilen links × 2 Zeilen rechts = 4 Ergebniszeilen. Auch nicht passende Kunden-Beleg-Kombinationen erscheinen.",shape:"cross"},
+inner:{title:"INNER JOIN – nur passende Paare",text:"Ausgegeben werden nur Zeilen, bei denen die Verknüpfungsbedingung erfüllt ist. Datensätze ohne passenden Partner werden weggelassen.",a:"Kunde",b:"Beleg",rows:[["KundenID","Vorname"],["1","Mia"],["2","Ben"]],right:[["BelegID","KundenID"],["101","1"],["102","3"]],result:[["Vorname","BelegID"],["Mia","101"]],hint:"Nur KundenID 1 kommt in beiden Tabellen vor. Ben und Beleg 102 haben keinen passenden Partner.",shape:"inner"},
+left:{title:"LEFT JOIN – alle Zeilen aus der linken Tabelle",text:"Alle Zeilen der linken Tabelle bleiben im Ergebnis. Gibt es rechts keinen passenden Datensatz, stehen in den Spalten der rechten Tabelle NULL-Werte.",a:"Kunde (links)",b:"Beleg (rechts)",rows:[["KundenID","Vorname"],["1","Mia"],["2","Ben"]],right:[["BelegID","KundenID"],["101","1"],["102","3"]],result:[["Vorname","BelegID"],["Mia","101"],["Ben","NULL"]],hint:"Mia hat einen Beleg. Ben bleibt ebenfalls erhalten, obwohl kein Beleg zu ihm passt.",shape:"left"},
+right:{title:"RIGHT JOIN – alle Zeilen aus der rechten Tabelle",text:"Alle Zeilen der rechten Tabelle bleiben im Ergebnis. Gibt es links keinen passenden Datensatz, stehen in den Spalten der linken Tabelle NULL-Werte.",a:"Kunde (links)",b:"Beleg (rechts)",rows:[["KundenID","Vorname"],["1","Mia"],["2","Ben"]],right:[["BelegID","KundenID"],["101","1"],["102","3"]],result:[["Vorname","BelegID"],["Mia","101"],["NULL","102"]],hint:"Alle Belege bleiben erhalten. Beleg 102 hat keinen passenden Kunden in der Beispieltabelle.",shape:"right"}
+};
+function makeTable(rows){return '<table><tbody>'+rows.map((r,i)=>'<tr>'+r.map(v=>i===0?'<th>'+v+'</th>':'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>';}
+function showJoin(key){
+ const d=joinInfo[key];if(!d)return;
+ document.querySelectorAll('.join-buttons button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.join===key)));
+ document.getElementById('joinTitle').textContent=d.title;
+ document.getElementById('joinText').textContent=d.text;
+ document.getElementById('joinHint').textContent=d.hint;
+ document.getElementById('joinExample').innerHTML='<b>Beispieltabellen:</b><div class="grid"><div><b>'+d.a+'</b>'+makeTable(d.rows)+'</div><div><b>'+d.b+'</b>'+makeTable(d.right)+'</div></div><b>Ergebnistabelle:</b>'+makeTable(d.result);
+ const path=document.getElementById('vennHighlight');
+ const paths={cross:'<circle cx="137" cy="112" r="76"/><circle cx="223" cy="112" r="76"/>',inner:'M180 36 A76 76 0 0 1 180 188 A76 76 0 0 1 180 36 Z',left:'<circle cx="137" cy="112" r="76"/>',right:'<circle cx="223" cy="112" r="76"/>'};
+ if(key==='cross'){path.setAttribute('d','');path.outerHTML='<g id="vennHighlight"><circle cx="137" cy="112" r="76" fill="#d93678" fill-opacity=".48"/><circle cx="223" cy="112" r="76" fill="#d93678" fill-opacity=".48"/></g>';}
+ else if(key==='inner'){path.outerHTML='<g id="vennHighlight"><circle cx="223" cy="112" r="76" fill="#d93678" fill-opacity=".78" clip-path="url(#clipA)"/></g>';}
+ else if(key==='left'){path.setAttribute('d','');path.outerHTML='<circle id="vennHighlight" cx="137" cy="112" r="76" fill="#d93678" fill-opacity=".48"/>';}
+ else {path.setAttribute('d','');path.outerHTML='<circle id="vennHighlight" cx="223" cy="112" r="76" fill="#d93678" fill-opacity=".48"/>';}
+}
+document.querySelectorAll('.join-buttons button').forEach(b=>b.addEventListener('click',()=>showJoin(b.dataset.join)));
+showJoin('cross');
+
 </script></body></html>
